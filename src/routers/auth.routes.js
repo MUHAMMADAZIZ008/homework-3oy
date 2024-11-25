@@ -4,8 +4,7 @@ import { Strategy } from "passport-google-oauth20";
 import { config } from "../configs/index.js";
 import { authContoller } from "../controllers/auth.controller.js";
 export const authRouter = new Router();
-const GoogleStrategy  = Strategy;
-
+const GoogleStrategy = Strategy;
 
 authRouter.use(passport.initialize());
 authRouter.use(passport.session());
@@ -18,12 +17,6 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-    //   console.log({
-    //     // accessToken,
-    //     // refreshToken,
-    //     profile,
-    //   });
-
       return done(null, profile);
     }
   )
