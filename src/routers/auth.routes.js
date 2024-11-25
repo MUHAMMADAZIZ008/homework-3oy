@@ -2,7 +2,7 @@ import { Router } from "express";
 import passport from "passport";
 import { Strategy } from "passport-google-oauth20";
 import { config } from "../configs/index.js";
-import { authContoller } from "../controllers/auth.controller.js";
+import { authContoller, otpController, otpVrifay } from "../controllers/auth.controller.js";
 export const authRouter = new Router();
 const GoogleStrategy = Strategy;
 
@@ -34,11 +34,21 @@ authRouter.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    res.redirect("/auth/profile");
+    res.redirect("/auth/otp");
   }
 );
+authRouter.get('/otp', otpController)
+authRouter.get('/vrifayOtp/:id', otpVrifay)
+
+
 authRouter.get("/profile", authContoller);
 
-authRouter.get("/logout", (req, res) => {
-  req.logout(() => res.redirect("/"));
+authRouter.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Sessiyani o'chirishda xato:", err);
+      return res.status(500).send("Xatolik yuz berdi.");
+    }
+    res.redirect('/login');
+  });
 });
