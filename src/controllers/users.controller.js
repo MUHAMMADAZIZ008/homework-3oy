@@ -75,7 +75,7 @@ export const updateUserController = async (req, res, next) =>{
 
         return res.status(201).send({
             message: 'success',
-            data: updateUser[0].id
+            data: updateUser
         })
     } catch (error) {
         logger.error(error)

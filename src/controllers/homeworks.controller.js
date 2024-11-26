@@ -1,13 +1,19 @@
-import { createCoursesService, deleteCoursesSersice, getCoursesSersice, updatCourseSersice } from '../services/index.service.js'
+import { 
+    createHomeworkService,
+    deleteHomeworkSersice,
+    getHomeworkSersice,
+    updatHomeworkSersice
+} from '../services/index.service.js'
+
 import { logger, AppError } from '../utils/index.js'
 
-export const createCoursesController = async (req, res, next) =>{
+export const createHomeworkController = async (req, res, next) =>{
     try {
         const body = req.body
-        const newCourses = await createCoursesService(body)
+        const newData = await createHomeworkService(body)
         return res.status(201).send({
             message: 'created',
-            data: newCourses.id
+            data: newData[0].id
         })
     } catch (error) {
         logger.error(error)
@@ -15,12 +21,12 @@ export const createCoursesController = async (req, res, next) =>{
     }
 }
 
-export const getAllCoursesController = async (req, res, next) =>{
+export const getAllHomeworkController = async (req, res, next) =>{
     try {
-        const allCourses = await getCoursesSersice('all')
+        const allData = await getHomeworkSersice('all')
         return res.status(201).send({
             message: 'success',
-            data: allCourses
+            data: allData
         })
     } catch (error) {
         logger.error(error)
@@ -28,17 +34,17 @@ export const getAllCoursesController = async (req, res, next) =>{
     }
 }
 
-export const getByIdCoursesController = async (req, res, next) =>{
+export const getByIdHomeworkController = async (req, res, next) =>{
     try {
         const id = req.params.id
-        const course = await getCoursesSersice('id', id)
+        const data = await getHomeworkSersice('id', id)
 
-        if(course.length === 0){
-            throw new AppError('course not found', 404)
+        if(data.length === 0){
+            throw new AppError('homework not found', 404)
         }
         return res.status(201).send({
             message: 'success',
-            data: course
+            data: data
         })
     } catch (error) {
         logger.error(error)
@@ -46,19 +52,19 @@ export const getByIdCoursesController = async (req, res, next) =>{
     }
 }
 
-export const searchCoursesController = async (req, res, next) =>{
+export const searchHomeworkController = async (req, res, next) =>{
     try {
         const {search} = req.query
         
-        const courses = await getCoursesSersice('search', search)
+        const data = await getHomeworkSersice('search', search)
 
-        if(courses.length === 0){
+        if(data.length === 0){
             throw new AppError('courses not found', 404)
         }
 
         return res.status(201).send({
             message: 'success',
-            data: courses
+            data: data
         })
     } catch (error) {
         logger.error(error)
@@ -66,30 +72,31 @@ export const searchCoursesController = async (req, res, next) =>{
     }
 }
 
-export const updateCoursesController = async (req, res, next) =>{
-    try {
-        const id = req.params.id        
-        const body = req.body
-        const course = await updatCourseSersice(body, id)
-
-        return res.status(200).send({
-            message: 'success',
-            data: course
-        })
-    } catch (error) {
-        logger.error(error)
-        next(error)
-    }
-}
-
-export const deleteCoursesController = async (req, res, next) =>{
+export const updateHomeworkController = async (req, res, next) =>{
     try {
         const id = req.params.id
-        const deleteCourses = await deleteCoursesSersice(id)
+            
+        const body = req.body
+        const data = await updatHomeworkSersice(body, id)
 
         return res.status(200).send({
             message: 'success',
-            data: deleteCourses[0].id
+            data: data
+        })
+    } catch (error) {
+        logger.error(error)
+        next(error)
+    }
+}
+
+export const deleteHomeworkController = async (req, res, next) =>{
+    try {
+        const id = req.params.id
+        const deleteData = await deleteHomeworkSersice(id)
+
+        return res.status(200).send({
+            message: 'success',
+            data: deleteData[0].id
         })
     } catch (error) {
         logger.error(error)

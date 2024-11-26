@@ -6,7 +6,8 @@ import session from "express-session";
 import {
   assigmentsRouter,
   authRouter,
-  coursesRouter,
+  homeworkRouter,
+  lessonsRouter,
   studentsRouter,
   teachersRouter,
   usersRouter,
@@ -32,10 +33,13 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRouter);
 app.use("/api/v1/users", usersRouter);
-app.use("/api/v1/courses", coursesRouter);
+app.use("/api/v1/courses", lessonsRouter);
 app.use("/api/v1/students", studentsRouter);
 app.use("/api/v1/teachers", teachersRouter);
 app.use("/api/v1/assigments", assigmentsRouter);
+app.use("/api/v1/homeworks", homeworkRouter);
+app.use("/api/v1/lessons", lessonsRouter);
+
 
 app.use((err, req, res, next) => {
   if (err) {

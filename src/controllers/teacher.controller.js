@@ -56,7 +56,7 @@ export const updateTeacherController = async (req, res, next) =>{
 
         return res.status(200).send({
             message: 'success',
-            data: course[0].id
+            data: course
         })
     } catch (error) {
         logger.error(error)
